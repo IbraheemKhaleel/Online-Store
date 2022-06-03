@@ -12,6 +12,8 @@ https://docs.djangoproject.com/en/3.1/ref/settings/
 import os
 from pathlib import Path
 from datetime import timedelta
+from celery.schedules import crontab
+
 
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
 from rest_framework import settings
@@ -41,7 +43,7 @@ INSTALLED_APPS = [
     'corsheaders',
     'rest_framework',
     'base.apps.BaseConfig',
-    # 'django-celery-beat'
+    'django-celery-beat'
 ]
 
 REST_FRAMEWORK = {
@@ -179,8 +181,7 @@ MEDIA_ROOT = os.path.join(BASE_DIR, 'static/images')
 CELERY_BEAT_SCHEDULE = {
     "scheduled_task": {
         "task": "base.tasks.salesreport",
-        "schedule": 5.0,
-        "args": (10, 10)
+        "schedule": crontab(minute=0, hour=0),
     }
 }
 
